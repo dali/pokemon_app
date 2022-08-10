@@ -3,7 +3,10 @@
 
 namespace App\Tests;
 
+use App\Entity\Type;
 use App\Entity\Pokemon;
+use App\Entity\BaseStats;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PokemonTest extends KernelTestCase
@@ -15,7 +18,7 @@ class PokemonTest extends KernelTestCase
     {
         $kernel = self::bootKernel([
             'environment' => 'test',
-            'debug'       => false,
+            'debug'       => true,
         ]);
         DatabasePrimer::prime($kernel);
 
@@ -24,10 +27,10 @@ class PokemonTest extends KernelTestCase
 
 
     /* Initial test */
-    public function testIsWorks()
-    {
-        $this->assertTrue(true);
-    }
+    // public function testIsWorks()
+    // {
+    //     $this->assertTrue(true);
+    // }
 
     /**
      * @test 
@@ -35,19 +38,64 @@ class PokemonTest extends KernelTestCase
     public function a_pokemon_record_can_be_created_in_the_database()
     {
      
+
         $pokemon = new Pokemon();
 
         $pokemon->setName('Bulbasaur');
         
         $this->entityManager->persist($pokemon);
 
+
+        $base = new BaseStats();
+        $base->setHp(45)
+             ->setAttack(49)
+             ->setDefence(49)
+             ->setSpAtk(65)
+             ->setSpDef(65)
+             ->setSpeed(45)
+             ->setTotal(309)
+             ;
+        $base->setPokemon($pokemon);
+
+
+        $type = new Type();
+        $type->setName('Poison');
+        $type->setName('Water');
+
+        $this->entityManager->persist($type);
+
+        $pokemon->addType($type);
+
+        $this->entityManager->persist($base);
+        
         $this->entityManager->flush();
+        
+  
+        $pokemonRepository = $this->entityManager
+                                ->getRepository(Pokemon::class);
 
-        $pokemonRepository = $this->entityManager->getRepository(Pokemon::class);
+        $pokemonRecord = $pokemonRepository->findOneBy([
+                                    'name' => 'Bulbasaur'
+                                    ]);
 
-        $pokemonRecord = $pokemonRepository->findOneBy(['name' => 'Bulbasaur']);
+        $statsRepository = $this->entityManager
+                                ->getRepository(BaseStats::class);
 
-        $this->assertEquals('Bulbasaur', $pokemonRecord->getName());
+        $statsRecord = $statsRepository->findOneBy([
+                                            'pokemon' => $pokemon->getId()
+                                            ]);
+        $typeRepository = $this->entityManager
+                               ->getRepository(Type::class);
+                               
+        $typeRecord = $typeRepository->findOneBy([
+                                'name' => 'Water'
+                                ]);
+
+        $this->assertEquals('Bulbasaur', $pokemonRecord->getName());                                   
+        $this->assertEquals('Bulbasaur', $statsRecord->getPokemon()->getName());
+        $this->assertEquals('Water', $typeRecord->getName());
+
     }
+
     
 }
