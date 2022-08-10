@@ -13,7 +13,10 @@ class PokemonTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $kernel = self::bootKernel();
+        $kernel = self::bootKernel([
+            'environment' => 'test',
+            'debug'       => false,
+        ]);
         DatabasePrimer::prime($kernel);
 
         $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
