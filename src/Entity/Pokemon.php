@@ -15,14 +15,23 @@ class Pokemon
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
     #[ORM\ManyToMany(targetEntity: Type::class, inversedBy: 'pokemons')]
     private Collection $types;
 
     #[ORM\OneToOne(mappedBy: 'pokemon', cascade: ['persist', 'remove'])]
     private ?BaseStats $stats = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $english = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $japanese = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $chinese = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $french = null;
 
     public function __construct()
     {
@@ -33,18 +42,6 @@ class Pokemon
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -90,6 +87,54 @@ class Pokemon
         }
 
         $this->stats = $stats;
+
+        return $this;
+    }
+
+    public function getEnglish(): ?string
+    {
+        return $this->english;
+    }
+
+    public function setEnglish(string $english): self
+    {
+        $this->english = $english;
+
+        return $this;
+    }
+
+    public function getJapanese(): ?string
+    {
+        return $this->japanese;
+    }
+
+    public function setJapanese(?string $japanese): self
+    {
+        $this->japanese = $japanese;
+
+        return $this;
+    }
+
+    public function getChinese(): ?string
+    {
+        return $this->chinese;
+    }
+
+    public function setChinese(?string $chinese): self
+    {
+        $this->chinese = $chinese;
+
+        return $this;
+    }
+
+    public function getFrench(): ?string
+    {
+        return $this->french;
+    }
+
+    public function setFrench(?string $french): self
+    {
+        $this->french = $french;
 
         return $this;
     }
