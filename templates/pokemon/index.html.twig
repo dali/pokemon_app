@@ -5,7 +5,51 @@
 {% block body %}
     <h1>Welocome to pokemon page</h1>
 
+<div class="container">
+        <form class="row g-3" action="{{ path('pokemon_filter') }}" method="post">
+        <div class="col-2">
+                <select name="type" class="form-select" aria-label="Default select example">
+                <option selected>--All type-- </option>
+                    {% for type in types %}
+                        <option  value="{{ type.id}}">{{ type.english}}</option>
+                    {% endfor %}
+                </select>
+         </div>
+        <div class="col-2">
+            <button class="btn btn-sm btn-success" type="submit"> Appliquer</button>
+        </div>
+        
+    </form>
+    <form class="row g-3" action="{{ path('pokemon_compare') }}" method="post">
+        <div class="col-2">
+                <select name="first_pokemon" class="form-select" aria-label="Default select example">
+                <option selected>--First pokemon-- </option>
+                    {% for pokemon in pokemons %}
+                        <option  value="{{ pokemon.id}}">{{ pokemon.english}}</option>
+                    {% endfor %}
+                </select>
+               
+         </div>
+                 <div class="col-2">
+               
+                <select name="second_pokemon" class="form-select" aria-label="Default select example">
+                <option selected>--Second pokemon-- </option>
+                    {% for pokemon in pokemons %}
+                        <option  value="{{ pokemon.id}}">{{ pokemon.english}}</option>
+                    {% endfor %}
+                </select>
+         </div>
+        <div class="col-2">
+            <button class="btn btn-sm btn-success" type="submit"> Compare</button>
+        </div>
+        
+    </form>
+    <div>
+
+    </div>
+</div>
 <table class="table">
+
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -31,7 +75,7 @@
                 </td> 
                 <td> 
                     {% for type in pokemon.types %}
-                        {{ type.english }} <br>  
+                        <a href="">{{ type.english }} </a>   <br>
                     {% endfor %}
                 </td> 
                 <td> {{ pokemon.stats.total }} </td>

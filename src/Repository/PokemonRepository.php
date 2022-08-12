@@ -53,4 +53,26 @@ class PokemonRepository extends ServiceEntityRepository
            ->getResult()
        ;
    }
+
+      /**
+    * @return Type[] Returns an array of Pokemon by type objects
+    */
+   public function findPokemonByType($type_id): array
+   {
+       return $this->createQueryBuilder('p')
+            ->select('p')
+            ->leftJoin('p.stats', 's')
+            ->addSelect('s')
+            ->leftJoin('p.types', 't')
+            ->addSelect('t')
+            ->andWhere('t.id = :type_id')
+            ->setParameter('type_id', $type_id)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+       ;
+   }
+
+
+
 }

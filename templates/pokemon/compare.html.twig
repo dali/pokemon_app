@@ -3,11 +3,15 @@
 {% block title %}Hello PokemonController!{% endblock %}
 
 {% block body %}
-    <h1>Welocome to pokemon single page</h1>
-
-                <table class="table">
-
-                            <tbody>
+    <h1>Campare two pokemon</h1>
+    <div class="container">
+          <div class="row">
+                {% for pokemon in pokemons %}
+               
+                   <div class="col"> 
+                    <table class="table">
+                    <h2>{{ pokemon.english }}</h2>
+                        <tbody>
                                 <tr><th scope="col">Num</th> <td>{{ pokemon.id }}</td>  </tr> 
                                 <tr><th scope="col"> Name</th> <td>{{ pokemon.english }}</td> </tr> 
                                 <tr><th scope="col">Types</th>
@@ -23,11 +27,14 @@
                                     <tr> <th scope="col">Sp. Atk</th> <td> {{ pokemon.stats.spAtk }} </td> </tr> 
                                     <tr> <th scope="col">Sp. Def</th>  <td> {{ pokemon.stats.spDef }} </td> </tr>
                                     <tr>  <th scope="col">Speed</th> <td> {{ pokemon.stats.speed }} </td> </tr> 
-                                    <tr> <th scope="col">Total</th> <td> {{ pokemon.stats.total }} </td></tr>    
-               
+                                    <tr> <th scope="col">Total</th> <td> {{ pokemon.stats.total }} </td></tr>      
+                                            
+                                    
 
-                            </tbody>
-                </table>
-
-
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+        </div>
+     </div>
 {% endblock %}

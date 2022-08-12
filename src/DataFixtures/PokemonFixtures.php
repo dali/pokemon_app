@@ -45,13 +45,22 @@ class PokemonFixtures extends Fixture
             }
             
             $base = new BaseStats();
+            $total = array_sum([
+                $value['base']['HP'],
+                $value['base']['Attack'], 
+                $value['base']['Defense'],
+                $value['base']["Sp. Attack"],
+                $value['base']["Sp. Defense"],
+                $value['base']['Speed']
+                ]
+            );
             $base->setHp($value['base']['HP'])
                  ->setAttack($value['base']['Attack'])
                  ->setDefence($value['base']['Defense'])
                  ->setSpAtk($value['base']["Sp. Attack"])
                  ->setSpDef($value['base']["Sp. Defense"])
                  ->setSpeed($value['base']['Speed'])
-                 ->setTotal($value['base']['Speed'])
+                 ->setTotal($total)
                  ;
             $base->setPokemon($pokemon);
             $manager->persist($base);
