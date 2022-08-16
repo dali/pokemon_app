@@ -75,7 +75,7 @@
                 </td> 
                 <td> 
                     {% for type in pokemon.types %}
-                        <a href="">{{ type.english }} </a>   <br>
+                        {{ type.english }}    <br>
                     {% endfor %}
                 </td> 
                 <td> {{ pokemon.stats.total }} </td>
